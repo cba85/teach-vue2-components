@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <num></num>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      let Num = {
+        props: {
+          numbers: {
+            type: Array,
+            default() {
+              return [];
+            }
+          }
+        },
+        template: `<p>{{ added }}</p>`,
+        computed: {
+          added() {
+            return this.numbers.reduce((a, b) => a + b, 0);
+          }
+        }
+      };
+
+      let app = new Vue({
+        el: "#app",
+        components: {
+          Num
+        }
+      });
+    </script>
+  </body>
+</html>

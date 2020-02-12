@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <num :number="1"></num>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      let Num = {
+        props: ["number"],
+        template: `<p>{{ number + 1 }}</p>`
+      };
+
+      let app = new Vue({
+        el: "#app",
+        components: {
+          Num
+        }
+      });
+    </script>
+  </body>
+</html>

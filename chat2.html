@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <message></message>
+      <br />
+      <chat></chat>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      let bus = new Vue();
+
+      let Message = {
+        data() {
+          return {
+            user: null
+          };
+        },
+        template: `
+            <div class="message" v-if="message">
+                {{ message }}
+            </div>
+        `,
+        mounted() {
+          bus.$on("message:set", message => {
+            this.message = message;
+            setTimeout(() => {
+              this.message = null;
+            }, 1000);
+          });
+        }
+      };
+
+      let User = {
+        props: ["user"],
+        template: `
+                <div class="user">
+                    {{ user.name }}
+                </div>
+            `
+      };
+
+      let Users = {
+        components: {
+          User
+        },
+        data() {
+          return {
+            users: []
+          };
+        },
+        template: `
+        <div class="users">
+            <user v-for="user in users" :key="user.id" :user='user'></user>
+        </div>
+        `,
+        mounted() {
+          bus.$on("user:joined", user => {
+            this.users.push(user);
+
+            bus.$emit("message:set", `${user.name} has just entered the room`);
+          });
+        }
+      };
+
+      setInterval(() => {
+        bus.$emit("user:joined", {
+          id: Date.now(),
+          name: faker.name.findName()
+        });
+      }, 2000);
+
+      let Chat = {
+        components: {
+          Users
+        },
+        template: `
+            <div class="chat">
+               <users></users>
+            </div>
+            `
+      };
+
+      let app = new Vue({
+        el: "#app",
+        components: {
+          Chat,
+          Message
+        }
+      });
+    </script>
+  </body>
+</html>

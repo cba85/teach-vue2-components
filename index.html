@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar></sidebar>
+      <main-content></main-content>
+      <user></user>
+      <post></post>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      // Register component globally
+      Vue.component("sidebar", {
+        template: `
+                <aside>Sidebar</aside>
+            `
+        /*
+        data() {
+          return {
+            name: "Clément"
+          };
+        }
+        */
+      });
+
+      // "Content" is reserved
+      Vue.component("main-content", {
+        template: `
+            <div>Content</div>
+          `
+      });
+
+      Vue.component("user", {
+        data() {
+          return {
+            name: "Clément"
+          };
+        },
+        template: `
+          <div class="user">{{ name }}</div>
+          `
+      });
+
+      let Admin = {
+        template: `<div class="admin">Admin</div>`
+      };
+
+      let Post = {
+        data() {
+          return {
+            title: "The tile"
+          };
+        },
+        components: {
+          Admin
+        },
+        template: `<div class="post">
+        <h1>Title</h1>
+        <admin></admin>
+        <p>lorem ipsum</p>
+        </div>`
+      };
+
+      // Vue instance
+      let app = new Vue({
+        el: "#app",
+        components: {
+          Post
+        }
+      });
+    </script>
+  </body>
+</html>
