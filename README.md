@@ -1,5 +1,7 @@
 # Vue components
 
+> For demonstration purpose only
+
 1. Basic components (data)
 2. Global registration
 3. Local registration
